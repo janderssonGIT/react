@@ -1,7 +1,8 @@
 import React  from 'react';
 import { Card, CardImg, CardBody, CardText, CardTitle } from 'reactstrap';
 
-function RenderDish(dish) {
+function RenderDish(dishObj) {
+    const dish = dishObj.dish;
     if (dish != null) {
         return (
             <div className='col-12 col-md-5 m-1'>
@@ -24,7 +25,7 @@ function RenderComments(comments) {
     if (comments == null) {
         return (<div></div>)
     }
-    const cmnts = comments.map(comment => {
+    const cmnts = comments.cmts.map(comment => {
         return (
             <li key={comment.id}>
                 <p>{comment.comment}</p>
@@ -33,21 +34,19 @@ function RenderComments(comments) {
                     new Date(Date.parse(comment.date)))}</p>
             </li>
         )
-    })
+    });
     return (
         <div className='col-12 col-md-5 m-1'>
             <h4> Comments </h4>
             <ul className='list-unstyled'>
                 {cmnts}
             </ul>
-
         </div>
     )
 }
 
 const Dishdetail = (props) => {
-    const dish = props.dish
-    if (dish == null) {
+    if (props.dish == null) {
         return (<div></div>)
     }
 
@@ -55,11 +54,10 @@ const Dishdetail = (props) => {
         <div className='container'>
             <div className="row">
                 <RenderDish dish = {props.dish} />
-                <RenderComments cmts = {props.comments} />
+                <RenderComments cmts = {props.dish.comments} />
             </div>
         </div>
     )
 }
-
 
 export default Dishdetail
