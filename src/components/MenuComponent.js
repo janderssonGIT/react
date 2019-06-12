@@ -2,22 +2,20 @@ import React from 'react';
 import { Card, CardImg, CardImgOverlay, CardTitle, Breadcrumb, BreadcrumbItem} from 'reactstrap';
 import { Link } from 'react-router-dom';
 import { Loading } from '../redux/LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
-function RenderMenuItem({dish})  {
+function RenderMenuItem({ dish })  {
     return (
-        <div key={dish.id}>
-            <Card>
-                <Link to={`/menu/${dish.id}`} >
-                    <CardImg width="100%" src={dish.image} alt={dish.name} />
-                    <CardImgOverlay>
-                        <CardTitle >{dish.name}</CardTitle>
-                    </CardImgOverlay>
-                </Link>
-            </Card>
-        </div>
+        <Card>
+            <Link to={`/menu/${dish.id}`} >
+                <CardImg width="100%" src={baseUrl + dish.image} alt={dish.name} />
+                <CardImgOverlay>
+                    <CardTitle >{dish.name}</CardTitle>
+                </CardImgOverlay>
+            </Link>
+        </Card>
     );
 }
-
 
 const Menu = (props) => {
 
