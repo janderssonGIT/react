@@ -1,26 +1,39 @@
 import React from 'react';
 import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import { Loading } from '../redux/LoadingComponent';
+import { baseUrl } from '../shared/baseUrl';
 
 function About(props) {
 
-    function RenderLeader({ Leaders }) {
-        return (
-            <div>
-                {Leaders.map(leader => (
-                    <Media className="mt-5">
-                        <Media left className="mr-5">
-                            <Media object src={leader.image} alt={leader.name} />
+    function RenderLeader({ leaders, isLoading, errMess }) {
+        if (isLoading) {
+            return(
+                    <Loading />
+            );
+        }
+        else if (errMess) {
+            return(
+                    <h4>{errMess}</h4>
+            );
+        } else {
+            return (
+                <div>
+                    {leaders.map(leader => (
+                        <Media className="mt-5"  key={leader.id + leader.name}>
+                            <Media left className="mr-5">
+                                <Media object src={baseUrl + leader.image} alt={leader.name} />
+                            </Media>
+                        <Media body>
+                            <Media heading>{leader.name}</Media>
+                            <p>{leader.designation}</p>
+                            <p>{leader.description}</p>
+                            </Media>
                         </Media>
-                    <Media body>
-                        <Media heading>{leader.name}</Media>
-                        <p>{leader.designation}</p>
-                        <p>{leader.description}</p>
-                        </Media>
-                    </Media>
-                ))}
-            </div>
-        )
+                    ))}
+                </div>
+            )
+        }
     }
 
     return(
@@ -78,7 +91,9 @@ function About(props) {
                     <h2>Corporate Leadership</h2>
                 </div>
                 <div className="col-12">
-                    <RenderLeader Leaders={props.leaders} />
+                    <RenderLeader leaders={props.leaders}
+                        isLoading={props.leadersLoading} 
+                        errMess={props.leadersErrMess} />
                 </div>
             </div>
         </div>
