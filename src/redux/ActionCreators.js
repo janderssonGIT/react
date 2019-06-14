@@ -1,10 +1,7 @@
 import * as ActionTypes from './ActionTypes';
 import { baseUrl } from '../shared/baseUrl';
 
-export const addComment = (comment) => ({
-    type: ActionTypes.ADD_COMMENT,
-    payload: comment
-});
+// POST COMMENT
 
 export const postComment = (dishId, rating, author, comment) => (dispatch) => {
 
@@ -35,6 +32,50 @@ export const postComment = (dishId, rating, author, comment) => (dispatch) => {
     .catch(error => { console.log('Post comments ', error.message)
         alert('Your comment could not be posted\nError: ' + error.message)});
 }
+
+export const addComment = (comment) => ({
+    type: ActionTypes.ADD_COMMENT,
+    payload: comment
+});
+
+// POST FEEDBACK
+
+export const postFeedback = (firstName, lastName, telnum, email, agree, message) => (dispatch) => {
+
+    const newFeedback = {
+        firstName: firstName,
+        lastName: lastName,
+        telnum: telnum,
+        email: email,
+        agree: agree,
+        message: message,
+    }
+    newFeedback.date = new Date().toISOString();
+
+    return fetch(baseUrl + 'feedback', {
+        method: 'POST',
+        body: JSON.stringify(newFeedback),
+        headers: {
+            'Content-type': 'application/json'
+        },
+        credentials: 'same-origin'
+    })
+    .then(response => {
+        return handleErrors(response);
+    },
+    error => {
+        return handleNoServerResponse(error);
+    })
+    .then(response => response.json())
+    .then(response => dispatch(addFeedback(response)))
+    .catch(error => { console.log('Submit feedback ', error.message)
+        alert('Your feedback could not be submitted\nError: ' + error.message)});
+}
+
+export const addFeedback = (feedback) => ({
+    type: ActionTypes.ADD_FEEDBACK,
+    payload: feedback
+});
 
 // DISHES
 
