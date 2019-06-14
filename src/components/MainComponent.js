@@ -27,7 +27,7 @@ const mapDispatchToProps = (dispatch) => ({
       dishId, rating, author, comment)),
   postFeedback: (firstName, lastName, telnum, email, canContact, message) => dispatch(postFeedback(
     firstName, lastName, telnum, email, canContact, message)),
-  resetFeedbackForm: () => { dispatch(actions.reset('feedback')) },
+  resetFeedbackForm: () => { dispatch(actions.reset('initialfeedback')) },
   fetchDishes: () => { dispatch(fetchDishes()) },
   fetchComments: () => { dispatch(fetchComments()) },
   fetchPromos: () => { dispatch(fetchPromos()) },
@@ -51,7 +51,7 @@ class Main extends Component {
     
     const HomePage = () => {
         return(
-            //dish.featured is evaluated as either true false, and the returned value suggests if value shall be displayed.
+
             <Home 
                 dish={this.props.dishes.dishes.filter((dish) => dish.featured)[0]}
                 dishesLoading={this.props.dishes.isLoading}
@@ -101,7 +101,9 @@ class Main extends Component {
                   <Route exact path="/menu" component={() => <Menu dishes={this.props.dishes} /> } />
                   <Route path="/menu/:dishId" component={DishWithId} />
                   <Route exact path='/contactus' component={() => 
-                    <Contact resetFeedbackForm={this.props.resetFeedbackForm} postFeedback={this.props.postFeedback} />} 
+                    <Contact 
+                      resetFeedbackForm={this.props.resetFeedbackForm} 
+                      postFeedback={this.props.postFeedback} />} 
                   />
                   <Route exact path="/aboutus" component={AboutUs} />
                   <Redirect to="/home" />

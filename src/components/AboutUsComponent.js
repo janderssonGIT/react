@@ -3,6 +3,7 @@ import { Breadcrumb, BreadcrumbItem, Card, CardBody, CardHeader, Media } from 'r
 import { Link } from 'react-router-dom';
 import { Loading } from '../redux/LoadingComponent';
 import { baseUrl } from '../shared/baseUrl';
+import { Fade, Stagger } from 'react-animation-components';
 
 function About(props) {
 
@@ -19,18 +20,22 @@ function About(props) {
         } else {
             return (
                 <div>
-                    {leaders.map(leader => (
-                        <Media className="mt-5"  key={leader.id + leader.name}>
-                            <Media left className="mr-5">
-                                <Media object src={baseUrl + leader.image} alt={leader.name} />
-                            </Media>
-                        <Media body>
-                            <Media heading>{leader.name}</Media>
-                            <p>{leader.designation}</p>
-                            <p>{leader.description}</p>
-                            </Media>
-                        </Media>
-                    ))}
+                    <Stagger in>
+                        {leaders.map(leader => (
+                            <Fade in>
+                                <Media className="mt-5"  key={leader.id + leader.name}>
+                                    <Media left className="mr-5">
+                                        <Media object src={baseUrl + leader.image} alt={leader.name} />
+                                    </Media>
+                                <Media body>
+                                    <Media heading>{leader.name}</Media>
+                                    <p>{leader.designation}</p>
+                                    <p>{leader.description}</p>
+                                    </Media>
+                                </Media>
+                            </Fade>
+                        ))}
+                    </Stagger>
                 </div>
             )
         }
